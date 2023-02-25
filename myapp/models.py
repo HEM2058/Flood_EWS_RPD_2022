@@ -18,3 +18,17 @@ class User(models.Model):
 
     def __str__(self):
         return self.fname
+
+
+class Station(models.Model):
+    st_name = models.CharField(max_length=50)
+    st_district = models.CharField(max_length=50)
+    st_lat  = models.FloatField()
+    st_lng = models.FloatField()
+    st_river = models.CharField(max_length=50)
+    st_waterlevel_measured = models.FloatField()
+    st_warning_level = models.FloatField()
+    st_Danger_level = models.FloatField()
+
+    def __str__(self):
+        return self.st_name

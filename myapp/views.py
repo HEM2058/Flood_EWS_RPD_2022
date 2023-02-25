@@ -11,7 +11,8 @@ def Index(request):
     #        user = User.objects.get(id=id)
     #        return render(request,"index.html",{'user':user})
     #       else:
-           return render(request,"index.html")
+           st = Station.objects.all()
+           return render(request,"index.html",{'st':st})
 
 
 
@@ -86,4 +87,5 @@ def Loginuser(request):
       else:
         message = "User doesnot exist"
         return render(request,'guide/loginpage.html',{'msg':message})
+
 
