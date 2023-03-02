@@ -19,12 +19,8 @@ from myapp.views import *
 
 urlpatterns = [
    path('admin/', admin.site.urls),
-   path('',Index, name="index"),
-   path('RegisterForm',RegisterForm,name="registerform"),
-   path('Register',Register,name="register"),
-   path('otppage',OtpPage,name="otppage"),
-   path('OtpConfirm',OtpConfirm,name="otpconfirm"),
-   path('Loginpage',LoginPage,name="loginpage"),
-   path('Loginuser',Loginuser,name="loginuser"),
+   path('',Base,name="base"),
+   path('index/',Index, name="index"),
+   
 
 ]

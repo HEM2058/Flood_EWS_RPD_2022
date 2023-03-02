@@ -1,0 +1,169 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Time Flood Monitoring</title>
+    <style>
+   
+    </style> 
+</head>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+<link rel="stylesheet" href="{% static '/leafletcss/leaflet.css' %}">
+
+
+<body>
+  
+    <div id="pre">
+      <center style="color:black"><h2 >Allow Your Location to track your Details</h2>
+        <p>Make sure you are within Nepal and allowed location service to Webapp</p>
+       
+       </center>
+    </div>
+        <div id="map"></div>
+        <p id = "GFG_UP" style =
+        "font-size: 19px; font-weight: bold;">
+       </p>
+    
+                 
+    <button onclick = "GFG_Fun(dist)">
+        click here
+    </button>
+    
+    <p id = "GFG_DOWN" style =
+    "color: green; font-size: 24px; font-weight: bold;">
+    
+    </p>
+
+
+  
+  
+  
+</body>
+
+    
+</html>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+ 
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+<!-- <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script> -->
+<script src="{% static '/leafletjs/leaflet.js' %}"></script>
+<script src="{% static '/geojson/nepaldistrict.js' %}"></script>
+
+
+  
+    <script>
+    var nepalDistrict = L.geoJSON(district)
+
+
+    
+if(!navigator.geolocation)
+{
+  console.log("your browser does not support geolocation service")
+}
+
+else{
+    navigator.geolocation.getCurrentPosition(getPosition)
+
+  }
+  
+
+   var marker,circle;
+
+
+
+  function getPosition(position) {
+  console.log(position)
+  var lat = position.coords.latitude
+  var lng = position.coords.longitude
+  var accuracy = position.coords.accuracy
+  ProcessClick(lat,lng) 
+        
+ 
+  // L.marker([27.7431856,85.3934098]).addTo(map)
+
+  if(marker)
+  {
+     map.removeLayer(marker)
+  }
+  if(circle){
+      map.removeLayer(circle)
+  }
+  marker = L.marker([lat,lng],7)
+  circle = L.circle([lat,lng], {radius:accuracy})
+  var featureGroup = L.featureGroup([marker,circle]).addTo(map)
+  // map.fitBounds(featureGroup.getBounds())
+
+     
+}
+
+
+
+var theMarker;
+var selPoly = [];
+
+function ProcessClick(lat,lon){
+  if (theMarker != undefined) {
+            map.removeLayer(theMarker);
+      };
+  theMarker = L.marker([lat,lon]).addTo(map);
+
+  nepalDistrict.eachLayer(function (layer) {
+    
+     isInside = turf.booleanPointInPolygon(theMarker.toGeoJSON(), layer.toGeoJSON());
+     console.log(isInside)
+      if (isInside){
+          selPoly.push(layer.feature);
+          layer.setStyle({fillColor :'#BA3537'}); 
+          console.log(layer.feature.properties.DIST_EN);
+          GFG_Fun(layer.feature.properties.DIST_EN);
+
+        //   theMarker.bindPopup('You are within the buffer zone of the  River<br>Comes beyond its boundary to save life </br>').openPopup();
+         
+      }
+
+      // else{
+      //   theMarker.bindPopup("You are outside the flood risk area").openPopup();
+      // }
+      
+
+  })
+
+
+}
+
+
+var el_up = document.getElementById("GFG_UP");
+            var el_down = document.getElementById("GFG_DOWN");
+              
+            el_up.innerHTML = "Click on the button to generate "
+                    + "a link using JavaScript.";
+          function GFG_Fun(dist) {
+ 
+                 
+                  
+                  // Create anchor element.
+                  var a = document.createElement('a'); 
+                    
+                  // Create the text node for anchor element.
+                  var link = document.createTextNode("This is link");
+                    
+                  // Append the text node to anchor element.
+                  a.appendChild(link); 
+                    
+                  // Set the title.
+                  a.title = "This is Link"; 
+                    
+                  // Set the href property.
+                  a.href = "{% url "index" %}"; 
+                    
+                  // Append the anchor element to the body.
+                  document.body.appendChild(a).click(); 
+              }
+
+
+    </script>

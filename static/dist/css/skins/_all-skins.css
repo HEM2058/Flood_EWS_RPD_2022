@@ -76,20 +76,17 @@
 .skin-blue .sidebar-menu > li > a:hover,
 .skin-blue .sidebar-menu > li.active > a {
   color: #ffffff;
-  background: #1e282c;
+
   border-left-color: #3c8dbc;
 }
-.skin-blue .sidebar-menu > li > .treeview-menu {
-  margin: 0 1px;
-  background: #2c3b41;
-}
+
 .skin-blue .wrapper,
 .skin-blue .main-sidebar,
 .skin-blue .left-side {
-  background: #222d32;
+  background:#390574;
 }
 .skin-blue .sidebar a {
-  color: #b8c7ce;
+  color: #fff;
 }
 .skin-blue .sidebar a:hover {
   text-decoration: none;
