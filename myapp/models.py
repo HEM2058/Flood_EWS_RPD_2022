@@ -32,3 +32,12 @@ class Station(models.Model):
 
     def __str__(self):
         return self.st_name
+    
+class EvacuationMsg(models.Model):
+     name = models.CharField(max_length=50)
+     contact = models.BigIntegerField()
+     lat  = models.FloatField(null=True)
+     lng = models.FloatField(null=True)
+     evacuationNo = models.IntegerField()
+
+     

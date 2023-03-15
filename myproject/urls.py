@@ -21,6 +21,6 @@ urlpatterns = [
    path('admin/', admin.site.urls),
    path('',Base,name="base"),
    path('index/',Index, name="index"),
-   
+   path('msg',Msg,name="msg")
 
 ]

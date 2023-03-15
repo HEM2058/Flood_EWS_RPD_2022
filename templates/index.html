@@ -76,10 +76,12 @@
 
            
            
-        
-            <li><a href="#"><i class="fa fa-circle-o text-danger"></i> Important</a></li>
-            <li><a href="#"><i class="fa fa-circle-o text-warning"></i> Warning</a></li>
-            <li><a href="#"><i class="fa fa-circle-o text-info"></i> Information</a></li>
+<!--         
+            <li><a href="#"><i class="fa fa-circle-o text-danger"></i> Important</a></li> -->
+            <!-- <li><a href="#"><i class="fa fa-circle-o text-warning"></i> Evacuation Message</a></li> -->
+            <li><a href="#"><i class="fa fa-circle-o text-info"></i> About</a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-info"></i> Privacy Policy</a></li>
+            <li><a href="#"><i class="fa fa-circle-o text-info"></i> FAQ</a></li>
           </ul>
           
           <img class="leaflet-control" style="margin: 5px; width: 215px; height: 235px; border: 5px solid rgb(164, 4, 42); border-radius: 10px;  "  src="{% static 'Legend-01.jpg' %}" alt="">
@@ -146,28 +148,39 @@
               <div class="box box-info">
                 <div class="box-header">
                   <i class="fa fa-envelope"></i>
-                  <h3 class="box-title">Emergency Email</h3>
+                  <h3 class="box-title">Evacuation Message</h3>
                   <!-- tools box -->
                   <div class="pull-right box-tools">
                     <button class="btn btn-info btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                   </div><!-- /. tools -->
                 </div>
                 <div class="box-body">
-                  <form action="#" method="post">
+                  <form action="{% url 'msg' %}" method="POST">
+                    {% csrf_token %}
                     <div class="form-group">
-                      <input type="email" class="form-control" name="emailto" placeholder="Email to:"/>
+                      <input type="text" class="form-control" name="name" placeholder="Your Name"/>
                     </div>
                     <div class="form-group">
-                      <input type="text" class="form-control" name="subject" placeholder="Subject"/>
+                      <input type="text" class="form-control" name="contact" placeholder="Phone Number"/>
                     </div>
-                    <div>
-                      <textarea class="textarea" placeholder="Message" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                    <div class="form-group">
+                      <input type="number" class="form-control" name="evacuation" placeholder="Evacuation Number"/>
                     </div>
+                    <div style="display: non;" class="form-group">
+                      <input type="text" class="form-control" id="longitude" name="longitude" value="" readonly   />
+                      <input type="text" class="form-control" id="latitude" name="latitude" value=""  readonly />
+                    </div>
+                    <div class="box-footer clearfix">
+                      <button class="pull-right btn btn-default" id="sendEmail">Send <i class="fa fa-arrow-circle-right"></i></button>
+                    </div>
+                    <center>
+                      {% if request.session.msg%}
+                      <h3 style="color: red;">{{request.session.msg}}</h3>
+                      {% endif %}
+                    </center>
                   </form>
                 </div>
-                <div class="box-footer clearfix">
-                  <button class="pull-right btn btn-default" id="sendEmail">Send <i class="fa fa-arrow-circle-right"></i></button>
-                </div>
+                
               </div>
      
 
@@ -188,9 +201,9 @@
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
-          {% for n in st %}
-          <b>Developed by</b> {{n.st_lat}}
-          {% endfor %}
+    
+          <b>Developed by</b> Hem Raj Pandey
+        
         </div>
         <strong>Copyright &copy; 2023 <a href="http://almsaeedstudio.com">GEOCODERS-FLASH</a>.</strong> All rights reserved.
       </footer>
@@ -355,7 +368,7 @@ else{
    map.on('click',function(e){  
     lat = e.latlng.lat;
     lon = e.latlng.lng;
-    ProcessClick(lat,lon)   
+    ProcessClick(lat,lon) 
 });
 
   function getPosition(position) {
@@ -363,6 +376,8 @@ else{
   var lat = position.coords.latitude
   var lng = position.coords.longitude
   var accuracy = position.coords.accuracy
+  document.getElementById("latitude").value = lat;
+  document.getElementById("longitude").value = lng;
   ProcessClick(lat,lng) 
         
  

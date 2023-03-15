@@ -19,4 +19,17 @@ def Index(request):
 
 
 
+def Msg(request):
+     
+     if(request.method == "POST"):
+             name = request.POST['name']
+             contact = request.POST['contact']
+             lat = request.POST.get('latitude')
+             lng = request.POST.get('longitude')
+             evacuation = request.POST['evacuation']
 
+             msg = EvacuationMsg.objects.create(name=name, contact=contact, lat=lat, lng=lng ,evacuationNo=evacuation)
+             sentmsg = "Your message has been sent.Wait a while to get response !"
+             request.session['msg'] = sentmsg
+             return redirect('index')
+        
